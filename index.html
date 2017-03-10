@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<div id='news'></div>
+
+
+</body>
+<script>
+var articles = []
+var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/search?"),
+    params = {q:'microsoft', count:10, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
+Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+const myInit = {method: 'GET',
+                headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
+               }
+const news = fetch(url, myInit
+  ).then(response => response.json()).then(myBlob => {
+  debugger 
+  document.getElementById('news').append(myBlob)})
+  
+</script>
+</html>
