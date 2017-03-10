@@ -12,7 +12,6 @@
 
   .newsBox{
     display: flex;
-    flex-direction: column;
   }
 
   .article-body {
@@ -21,34 +20,85 @@
     flex-direction: column;
   }
  
-.article-content {
-  flex: 1; /* This will make the content fill up the remaining space, and thus push the information bar at the bottom */
+  .article-content {
+    flex: 1; /* This will make the content fill up the remaining space, and thus push the information bar at the bottom */
+  }
+
+  .columns {
+    display: flex;
+  }
+   
+  .red-column {
+    flex: 2;
+    flex-direction: column;
+    background-color: red;
+  }
+   
+  .blue-column {
+    flex: 2;
+    flex-direction: column;
+    background-color: blue;
+  }
+
+  .purple-column {
+    flex: 1;
+    flex-direction: column;
+    background-color: #e580ff;
   }
 </style>
 <body>
+<div class="columns">
+  <div class="blue-column" id="blue">
+  </div>
+  <div class='purple-column' id='purple'></div>
+  <div class="red-column" id="red">
+  </div>
+
+</div>
 <div id='news' class='newsBox'></div>
 
 
 </body>
 <script>
-var articles = []
-var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/search?"),
-    params = {q:'wikileaks', count:10, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
-Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-const myInit = {method: 'GET',
-                headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
-               }
-const news = fetch(url, myInit
-  ).then(response => response.json()).then(myBlob => {
-  myBlob.value.forEach((article)=>{
+var redSources = [ 'fox news', 'wall street journal', 'the drudge report', 'new york post', 'worldnetdaily', 'newsmax', 'free republic', 'the washington times', 'townhall', 'the rush limbaugh show', 'real clear politics', 'national review', 'hot air', 'michelle malkin', 'glenn beck', 'human events online', 'the heritage foundation', 'newsbusters', 'lew rockwell', 'the weekly standard', 'news with views', 'sean hannity', 'pajamas media', 'the ludwig von mises institute', 'atlas shrugs', 'the american thinker', 'cybercast news service', 'neal boortz', 'reason', 'lucianne', 'ann coulter', 'the cato journal', 'daily paul', 'the volokh conspiracy', 'bill o’reilly', 'redstate', 'conservapedia', 'power line', 'jewish world review', 'front page magazine', 'daniel pipes', 'little green footballs', 'campaign for liberty', 'the american spectator', 'commentary', 'gopusa', 'james lileks’', 'right wing news', 'wizbang', 'day by day', 'moonbatterylife news', 'vdare', 'debbie schlussel', 'republican national committee', 'lifesitenews', 'dick morris', 'blackfive', 'outside the beltway', 'american conservative', 'freerepublic.com', 'the wall street journal', "american spectator", "american thinker", "bearing drift", "breitbart", "cbn", "cent. for strategic and budgetary assessments", "cns news", "cnsnews.com", "conservative hq", "daily caller", "daily mail", "daily press", "deseret news", "drudge report", "fiscal times", "fox news", "fox news latino", "frank miniter", "frontpage magazine", "hotair", "inacow", "independent journal review", "infowars", "intellectual conservative", "investor's business daily", "judicial watch", "ksl", "leesburg today", "live action news", "mark mix", "media research center", "michellemalkin.com", "national review", "new york post", "newsmax", "orange county register", "pittsburgh post-gazette", "reason", "red state", "richmond times dispatch", "right - major media sources", "right side news", "right wing news", "the daily wire", "the federalist", "the gateway pundit", "the libertarian republic", "the telegraph - uk", "theblaze", "townhall", "wall street journal- opinion", "washington examiner", "washington free beacon", "washington guardian", "washington times", "watchdog.org", "weekly standard", "western journalism" ];
+
+var purpleSources = ["allsides", "allsides community", "associated press", "association for psychological science", "barnstable patriot", "bbc news", "bloomberg", "business insider", "c-span", "calmatters", "calwatchdog", "center - major media sources", "chicago tribune", "christian science monitor", "cnbc", "cnn", "cook report", "counterpointing", "crowdpac", "cu independent", "daily beast", "daily cardinal", "daily progress", "diplomatic courier", "duke chronicle", "estes park trail gazette", "eurek alert", "fact checker blog", "factcheck.org", "fair.org", "fivethirtyeight", "forbes", "hampton roads messanger", "honolulu civil beat", "how do we fix it?", "indiana daily student", "indy online", "inside philanthropy", "international business times", "ivn", "journalist's resource", "kqed", "living room conversations", "mit news", "national journal", "nmpolitics.net", "npr", "pbs newshour", "politico", "portland press herald", "pri (public radio international)", "procon.org", "propublica", "pxw news", "quartz", "rasmussen reports", "real clear politics", "record journal", "reuters", "science daily", "scientific american", "sf weekly", "suspend belief podcast", "techcrunch", "test source", "the hill", "the korea herald", "the observer (new york)", "the oracle", "the red and black", "the reliable bias", "the republican", "the week", "truth or fiction", "usa today", "volante", "wall street journal- news", "wfae", "wgbh"]
+
+var blueSources = ['cnn', 'cnn.com', 'the huffington post', 'huffpost.com', 'the new york times', 'nytimes.com', 'politico', 'politico.com', 'slate', 'slate.com', 'rolling stone', 'rollingstone.com', 'abc news', 'abcnews.go.com', 'abcnews.com', 'daily kos', 'the daily kos', 'dailykos.com', 'the washington post', 'washingtonpost.com', 'time', 'time.com', 'the atlantic', 'theatlantic.com', 'rawstory.com', 'nbc', 'nbc news', 'nbcnews.com', 'salon', 'salon.com', 'the new yorker', 'newyorker.com', 'thedailybeast.com', 'the daily beast', 'politifact.com', 'politifact', 'alternet.org', 'credoaction.com', 'thinkprogress.org', 'new york times', 'mother jones', "abc news", "alternet", "aquinas college saint", "arkansas democrat-gazette", "atlanta journal-constitution", "austin american-statesman", "blue virginia", "boing boing", "boston globe", "bowling green daily news", "bustle", "buzzfeed", "care 2", "cbs", "center for public integrity", "centre view", "chicago sun-times", "counter currents", "daily kos", "daily northwestern", "daily targum", "democracy now", "e j dionne", "esquire", "falls church news - press", "grist", "harvard business school", "herald democrat", "huffington post", "indy week", "las vegas sun", "left - major media sources", "longmont times-call", "los angeles times", "louisville courier-journal", "media matters", "mediaite", "michigan daily", "mother jones", "msnbc", "nbc news", "nbc today show", "new republic", "new york daily news", "new york magazine", "new york times", "newsweek", "pacific standard", "peacock panache", "politicususa", "politifact", "raw story", "rolling stone", "salon", "san jose mercury news", "sf gate", "sky-hi daily news", "slate", "socialist alternative", "socialist project/the bullet", "spokesman review", "state journal", "tallahassee democrat", "the advocate-messenger", "the atlantic", "the cadiz record", "the canyon county zephyr", "the commercial appeal", "the courier-journal", "the daily show (humor)", "the delaware county daily times", "the economist", "the guardian", "the intercept", "the justice", "the nation", "the sacramento bee", "the salt lake tribune", "the verge", "thinkprogress", "time magazine", "truthout", "u.s. news and world report", "univision", "upworthy", "vanity fair", "vox.com", "vt digger", "washington monthly", "washington post", "wisconsin gazette", "yahoo news", "yes! magazine"]
+
+var checkImage = function(article){
+
+}
+
+var polarize = function(article, articleBox){
+    if(redSources.includes(article.provider[0].name.toLowerCase())){
+      let column = document.getElementById("red")
+      column.append(articleBox)
+    }
+    else if(blueSources.includes(article.provider[0].name.toLowerCase())){
+      let column = document.getElementById("blue")
+      column.append(articleBox)   
+    }
+    else if(purpleSources.includes(article.provider[0].name.toLowerCase())){
+      let column = document.getElementById("purple")
+      column.append(articleBox)
+    }
+    else{
+      console.log(article.provider[0].name)
+    }
+}
+
+var createArticle = function(article){
     let articleBox = document.createElement('a')
     articleBox.setAttribute("class", "article")
-    let imgFigure = document.createElement("figure")
-    imgFigure.setAttribute("class", "article-image")
-    let thumbnail = document.createElement("img")
-    thumbnail.setAttribute("src", article.image.thumbnail.contentUrl)
-    imgFigure.append(thumbnail)
-    articleBox.append(imgFigure)
+    if(article.image){
+      let imgFigure = document.createElement("figure")
+      imgFigure.setAttribute("class", "article-image")
+      let thumbnail = document.createElement("img")
+      thumbnail.setAttribute("src", article.image.thumbnail.contentUrl)
+      imgFigure.append(thumbnail)
+      articleBox.append(imgFigure)
+    }
     let articleBody = document.createElement("div")
     articleBody.setAttribute("class", "article-body")
     let title = document.createTextNode(article.name)
@@ -63,18 +113,33 @@ const news = fetch(url, myInit
     articleBody.append(descriptionContainer)
     let footer = document.createElement("footer")
     let source = document.createTextNode(article.provider[0].name)
+    
     footer.append(source)
     articleBody.append(footer)
     articleBox.append(articleBody)
+    polarize(article, articleBox)
+
 
     // articleBox.append(title)
     // articleBox.append(thumbnail)
     articles.push(articleBox)
+}
+var articles = []
+var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/search?"),
+    params = {q:'muslim ban', count:100, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
+Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+const myInit = {method: 'GET',
+                headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
+               }
+const news = fetch(url, myInit
+  ).then(response => response.json()).then(myBlob => {
+  myBlob.value.forEach((article)=>{
+    createArticle(article)
   })
 
-  articles.forEach((article) =>{
-    document.getElementById('news').append(article)
-  })
+  // articles.forEach((article) =>{
+  //   document.getElementById('news').append(article)
+  // })
 })
   
 </script>
