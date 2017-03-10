@@ -3,23 +3,79 @@
 <head>
   <title></title>
 </head>
+<style type="text/css">
+  .article{
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+  }
+
+  .newsBox{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+ 
+.article-content {
+  flex: 1; /* This will make the content fill up the remaining space, and thus push the information bar at the bottom */
+  }
+</style>
 <body>
-<div id='news'></div>
+<div id='news' class='newsBox'></div>
 
 
 </body>
 <script>
 var articles = []
 var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/search?"),
-    params = {q:'microsoft', count:10, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
+    params = {q:'wikileaks', count:10, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
 Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 const myInit = {method: 'GET',
                 headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
                }
 const news = fetch(url, myInit
   ).then(response => response.json()).then(myBlob => {
-  debugger 
-  document.getElementById('news').append(myBlob)})
+  myBlob.value.forEach((article)=>{
+    let articleBox = document.createElement('a')
+    articleBox.setAttribute("class", "article")
+    let imgFigure = document.createElement("figure")
+    imgFigure.setAttribute("class", "article-image")
+    let thumbnail = document.createElement("img")
+    thumbnail.setAttribute("src", article.image.thumbnail.contentUrl)
+    imgFigure.append(thumbnail)
+    articleBox.append(imgFigure)
+    let articleBody = document.createElement("div")
+    articleBody.setAttribute("class", "article-body")
+    let title = document.createTextNode(article.name)
+    let titleBox = document.createElement("h4")
+    titleBox.setAttribute("class", "article-title")
+    titleBox.append(title)
+    let description = document.createTextNode(article.description)
+    let descriptionContainer = document.createElement("p")
+    descriptionContainer.setAttribute("class", "article-content")
+    descriptionContainer.append(description)
+    articleBody.append(titleBox)
+    articleBody.append(descriptionContainer)
+    let footer = document.createElement("footer")
+    let source = document.createTextNode(article.provider[0].name)
+    footer.append(source)
+    articleBody.append(footer)
+    articleBox.append(articleBody)
+
+    // articleBox.append(title)
+    // articleBox.append(thumbnail)
+    articles.push(articleBox)
+  })
+
+  articles.forEach((article) =>{
+    document.getElementById('news').append(article)
+  })
+})
   
 </script>
 </html>
