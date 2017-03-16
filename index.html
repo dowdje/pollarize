@@ -14,20 +14,27 @@
    margin-left: 0px
   }
 
+
+
   .arrow{
     margin: 0px 0px 0px 0px;
-    size: 25px;
+    size: 10px;
   }
 
   nav{
     display: flex;
     height: 100px;
-    width: auto;
-    background-color: #944dff;
+    width: 100%;  
+    background: #bf80ff;
     justify-content: space-around;
+    padding-bottom: 10px;
   }
 
-  h4{
+  .navbar-fixed{
+    position: fixed;
+  }
+
+  h3{
     font-weight: normal;
   }
 
@@ -53,6 +60,7 @@
     margin: 0px;
     display: flex;
     flex-direction: row;
+    align-items: center;
     border-radius: 5px;
     justify-content: space-between;
   }
@@ -68,30 +76,38 @@
   }
 
   .article{
-    margin-top: 5px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
     flex-basis: auto;
     padding: 0px;
     text-decoration: none;
-    height: 130px;
-    border-bottom: solid black 2px;
+    height: auto;
+    border-bottom: solid 1px rgba(0,0,0,0.5);
   }
 
   .newsBox{
     display: flex;
   }
 
+
   .blue-column .article .article-image .arrow:hover{
     background-color: #99ccff;
+    cursor: pointer;
   }
 
   .red-column .article .article-image .arrow:hover{
     background-color: #ff8080;
+    cursor: pointer;
   }
 
   .red-column .article figure .thumbnail{
+    margin-left: auto;
     order: 3;
+  }
+
+  .logo{
+    margin-right: auto;
   }
 
   .blue-column .article figure .thumbnail{
@@ -111,15 +127,37 @@
     text-align: left;
   }
 
+  .blue-column .article .article-image .article-title{
+    text-align: left;
+  }
+
+  .red-column .article .article-image{
+    margin-right: 5px;
+  }
+
+  .blue-column .article .article-image{
+    margin-left: 5px;
+  }
+
   .article-body {
+    margin-left: 5px;
+    margin-right: 5px;
     display: flex;
     flex: 1;
     flex-direction: column;
     color: #1a1a1a;
+    padding-bottom: 5px;
   }
  
   .article-content {
-    flex: 1; /* This will make the content fill up the remaining space, and thus push the information bar at the bottom */
+    flex: 1;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+
+  .footer{
+    margin-right: 3px;
+    text-align: right;
   }
 
   .columns {
@@ -130,7 +168,7 @@
     flex: 2;
     flex-direction: column;
     padding: 0px;
-    background-color: #ff3333;
+    background-color: #ff4d94;
   }
 
 
@@ -144,6 +182,10 @@
     flex-direction: column;
     padding: 0px;
     background-color: #1aa3ff;
+  }
+
+  .article-content:hover{
+    color: #e2e1e0;
   }
 
 /*  .blue-column .article{
@@ -184,6 +226,7 @@
   border: solid 2px white;
   padding: 19px 20px 19px 20px;
   width: 30px;
+  vertical-align: middle;
 
   -webkit-border-radius: 10em;
   -moz-border-radius: 10em;
@@ -275,13 +318,6 @@ var polarize = function(article, articleBox){
 
       column.append(articleBox)   
     }
-    // else if(purpleSources.includes(article.provider[0].name.toLowerCase())){
-    //   let column = document.getElementById("purple")
-    //   column.append(articleBox)
-    // }
-    else{
-      // console.log(article.provider[0].name)
-    }
 }
 
 var createImage = function(article, articleBox){
@@ -299,7 +335,7 @@ var createImage = function(article, articleBox){
 
 var createTitleElement = function(article, imgFigure){
     let title = document.createTextNode(article.name)
-    let titleBox = document.createElement("h4")
+    let titleBox = document.createElement("h3")
     titleBox.setAttribute("class", "article-title")
     titleBox.append(title)
     imgFigure.append(titleBox)
@@ -308,7 +344,9 @@ var createTitleElement = function(article, imgFigure){
 
 var createDescription = function(article, articleBody){
     let description = document.createTextNode(article.description)
-    let descriptionContainer = document.createElement("p")
+    let descriptionContainer = document.createElement("a")
+    descriptionContainer.setAttribute("href", article.url)
+    descriptionContainer.setAttribute("target", "_blank")
     descriptionContainer.setAttribute("class", "article-content")
     descriptionContainer.append(description)
     articleBody.append(descriptionContainer)
@@ -321,12 +359,12 @@ var addArrow = function(imgFigure){
   imgFigure.append(arrow)
 }
 
-var createArticle = function(article){
+var createArticle = function(article, index){
 
     let articleBox = document.createElement('a')
+    articleBox.setAttribute('id', index)
     articleBox.setAttribute("class", "article")
-    articleBox.setAttribute("href", article.url)
-    articleBox.setAttribute("target", "_blank")
+
 
     createImage(article, articleBox)
 
@@ -338,6 +376,7 @@ var createArticle = function(article){
     createDescription(article, articleBody)
 
     let footer = document.createElement("footer")
+    footer.setAttribute("class", "footer")
     let source = document.createTextNode(article.provider[0].name)
     footer.append(source)
     articleBody.append(footer)
@@ -359,10 +398,11 @@ var createArticle = function(article){
                  }
   const news = fetch(url, myInit
     ).then(response => response.json()).then(myBlob => {
-    myBlob.value.forEach((article)=>{
-      createArticle(article)
+    myBlob.value.forEach((article, index)=>{
+      createArticle(article, index)
     })
 
+$(document).ready(function() {
 
     var everything = document.getElementsByClassName("everything")[0];
     var searchButton = document.getElementsByClassName("search")[0];
@@ -398,6 +438,13 @@ function searchForTerm(e){
               articlesObj.value.forEach((article)=>{
                 createArticle(article)
               })
+              everything.addEventListener("click", handleEverythingClick);
+              searchButton.addEventListener("click", handleSearchButtonClick);
+              searchBar.addEventListener("submit", searchForTerm)
+              var arrows = $('.arrow')
+              for(var i = 0; i < arrows.length; i++){
+                arrows[i].addEventListener('click', showMoreInfo)
+              }
             }})
 
 }
@@ -414,12 +461,38 @@ function handleSearchButtonClick() {
   line.style.display = 'none';
 }
 
+function showMoreInfo(e){
+  var description = e.target.parentElement.parentElement.childNodes[1]
 
+  if(description.style.display === 'none'){
+      e.target.setAttribute("src", "up-arrow.png")
+      description.style.display = 'block'
+  }else{
+      e.target.setAttribute("src", "arrow.png")
+      description.style.display = 'none'
+    }
+  }
 
-  // articles.forEach((article) =>{
-  //   document.getElementById('news').append(article)
-  // })
+var arrows = $('.arrow')
+  for(var i = 0; i < arrows.length; i++){
+    arrows[i].addEventListener('click', showMoreInfo)
+  }
 })
+
   
+  $(window).scroll(function () {
+      //if you hard code, then use console
+      //.log to determine when you want the 
+      //nav bar to stick.  
+      console.log($(window).scrollTop())
+    if ($(window).scrollTop() > 100) {
+      $('nav').addClass('navbar-fixed');
+    }
+    if ($(window).scrollTop() < 100) {
+      $('nav').removeClass('navbar-fixed');
+    }
+  });
+
+})  
 </script>
 </html>
