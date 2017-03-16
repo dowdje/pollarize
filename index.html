@@ -290,7 +290,7 @@
   </div>
 
 </div>
-<div id='news' class='newsBox'></div>
+<div class='newsBox'></div>
 
 
 </body>
@@ -388,21 +388,38 @@ var createArticle = function(article, index){
 }
 
 
-  var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/?Category=Politics");
-  var params = {q:"Donald Trump", count:100, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'};
+      
 
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
-  const myInit = {method: 'GET',
-                  headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
-                 }
-  const news = fetch(url, myInit
-    ).then(response => response.json()).then(myBlob => {
-    myBlob.value.forEach((article, index)=>{
-      createArticle(article, index)
-    })
+
 
 $(document).ready(function() {
+    var initParams = {
+            // Request parameters
+            "q": "Donald Trump",
+            "count": "100",
+            "offset": "0",
+            "mkt": "en-us",
+            "safeSearch": "Moderate",
+        };
+          $.ajax({
+            url: "https://api.cognitive.microsoft.com/bing/v5.0/news/search?" + $.param(initParams),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'44cc8ae001954e548d4708d0776ad5c1');
+            },
+            type: "GET",
+            success: function(response){
+              var articlesObj = eval('('+response+')');
+                $('.article').remove()
+              articlesObj.value.forEach((article)=>{
+                createArticle(article)
+              })
+              var arrows = $('.arrow')
+              for(var i = 0; i < arrows.length; i++){
+                arrows[i].addEventListener('click', showMoreInfo)
+              }
+            }})
 
     var everything = document.getElementsByClassName("everything")[0];
     var searchButton = document.getElementsByClassName("search")[0];
@@ -493,6 +510,6 @@ var arrows = $('.arrow')
     }
   });
 
-})  
+  
 </script>
 </html>
