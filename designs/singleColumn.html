@@ -2,8 +2,6 @@
 <html>
 <head>
   <title></title>
-<script src="http://www.google.com/jsapi" type="text/javascript"></script>
-<script type="text/javascript">google.load("jquery", "1.3.2");</script>
 </head>
 <style type="text/css">
 
@@ -14,39 +12,19 @@
    margin-left: 0px
   }
 
-  .arrow{
-    margin: 0px 0px 0px 0px;
-    size: 25px;
-  }
-
-  nav{
-    display: flex;
-    height: 100px;
-    width: auto;
-    background-color: #944dff;
-    justify-content: space-around;
-  }
-
-  h4{
+  h3{
     font-weight: normal;
   }
 
-  .thumbnail {
-      height: 100px;
-      max-height: : 100%;
-      width: auto;
+  img {
+      max-width: 100%;
+      height: auto;
       border-top-left-radius: 5px
   }
 
   .article-title{
     margin: 5px;
     font-family: Helvetica;
-    /*vertical-align: center;*/
-    text-align: middle;
-  }
-
-  .article-body{
-    display: none;
   }
 
   figure{
@@ -54,61 +32,29 @@
     display: flex;
     flex-direction: row;
     border-radius: 5px;
-    justify-content: space-between;
-  }
-
-  @media(max-width: 576px){
-    figure{
-      flex-direction: column;
-      width: 100px;
-    }
-    .article{
-      flex-direction: row;
-    }
   }
 
   .article{
-    margin-top: 5px;
     display: flex;
     flex-direction: column;
     flex-basis: auto;
-    padding: 0px;
+    border-style: ridge;
+    border-radius: 5px;
+    padding: 20px;
     text-decoration: none;
-    height: 130px;
-    border-bottom: solid black 2px;
+    max-width: 600px;
   }
 
   .newsBox{
     display: flex;
   }
 
-  .blue-column .article .article-image .arrow:hover{
+  .blue-box .article:hover{
     background-color: #99ccff;
   }
 
-  .red-column .article .article-image .arrow:hover{
+  .red-box .article:hover{
     background-color: #ff8080;
-  }
-
-  .red-column .article figure .thumbnail{
-    order: 3;
-  }
-
-  .blue-column .article figure .thumbnail{
-    margin-right: auto;
-  }
-
-  .red-column .article .article-image .arrow{
-    order: 1;
-  }
-
-  .blue-column .article .article-image .arrow{
-    align-self: right
-  }
-
-  .red-column .article .article-image .article-title{
-    order: 2;
-    text-align: left;
   }
 
   .article-body {
@@ -126,34 +72,31 @@
     display: flex;
   }
   
-  .red-column {
+/*  .red-column {
     flex: 2;
     flex-direction: column;
-    padding: 0px;
-    background-color: #ff3333;
-  }
+    padding: 5px;
+  }*/
 
-
-/*  .red-column .article{
+  .red-box .article{
     border-color: red;
-    margin: 10px
-  }*/
+    margin: 5px
+  }
    
-  .blue-column {
+  .columns {
     flex: 2;
     flex-direction: column;
-    padding: 0px;
-    background-color: #1aa3ff;
+    padding: 5px;
   }
 
-/*  .blue-column .article{
+  .blue-box .article{
     border-color: blue;
-    margin: 10px;
-  }*/
+    margin: 5px;
+  }
 
-  .blue-column .article figure{
+  .blue-box .article figure{
+    background-color: #cccccc;
     color: black;
-    justify-content: flex-end;
   }
 
 /*  .blue-column .article:hover p{
@@ -163,9 +106,9 @@
     color: red;
   }*/
 
-  .red-column .article figure{
+  .red-box .article figure{
+    background-color: #cccccc;
     color: black;
-    justify-content: flex-start;
   }
 
   .purple-column {
@@ -173,78 +116,9 @@
     flex-direction: column;
     background-color: #e580ff;
   }
-
-.search {
-  cursor: default;
-  background-color: #9F87D1;
-  height: 30px;
-  font-size: 21px;
-  color: white;
-  display: block;
-  border: solid 2px white;
-  padding: 19px 20px 19px 20px;
-  width: 30px;
-
-  -webkit-border-radius: 10em;
-  -moz-border-radius: 10em;
-  border-radius: 10em;
-
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-  transition: all .5s;
-}
-
-.search::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.search:focus {
-  width: 520px;
-  /*transform: translateX(-260px);*/
-  background-color: #9F87D1;
-  outline: none;
-}
-
-.search:focus::-webkit-input-placeholder {
-  color: white;
-}
-
-.search::before {
-  content: '';
-  margin-top: 10px;
-  width: 60px;
-  height: 2px;
-  background-color: white;
-}
-
-.line {
-  width: 2px;
-  height: 35px;
-  transform: rotate(-35deg);
-  background-color: white;
-  float: left;
-  margin-left: 68px;
-  margin-top: -12px;
-}
 </style>
-<body class='everything'>
-<nav>
-  <div>
-    <form class='searchBar'>
-    <input type="text" id='searchValue' placeholder="Search for any current political topic" height="30" class="search">
-    </input>
-    </form>
-  
-    <div class="line">
-    </div>
-  </div>
-</nav>
-<div class="columns">
-  <div class="blue-column" id="blue">
-  </div>
-  <!-- <div class='purple-column' id='purple'></div> -->
-  <div class="red-column" id="red">
-  </div>
+<body>
+<div class="columns" id='columns'>
 
 </div>
 <div id='news' class='newsBox'></div>
@@ -263,17 +137,21 @@ var checkImage = function(article){
 }
 
 var polarize = function(article, articleBox){
+    let column = document.getElementById("columns")
+    let container = document.createElement("div")
     if(redSources.includes(article.provider[0].name.toLowerCase())){
-      let column = document.getElementById("red")
+      container.setAttribute("class", "red-box")
       articleBox.setAttribute("border-color", "red")
-      console.log(article)
-      column.append(articleBox)
+
+      container.append(articleBox)
+      column.append(container)
     }
     else if(blueSources.includes(article.provider[0].name.toLowerCase())){
-      let column = document.getElementById("blue")
+      container.setAttribute("class", "blue-box")
       articleBox.setAttribute("border-color", "blue")
-
-      column.append(articleBox)   
+      
+      container.append(articleBox)
+      column.append(container)
     }
     // else if(purpleSources.includes(article.provider[0].name.toLowerCase())){
     //   let column = document.getElementById("purple")
@@ -290,7 +168,6 @@ var createImage = function(article, articleBox){
     if(article.image){
       let thumbnail = document.createElement("img")
       thumbnail.setAttribute("src", article.image.thumbnail.contentUrl)
-      thumbnail.setAttribute("class", "thumbnail")
       imgFigure.append(thumbnail)
     }
       createTitleElement(article, imgFigure)
@@ -299,11 +176,10 @@ var createImage = function(article, articleBox){
 
 var createTitleElement = function(article, imgFigure){
     let title = document.createTextNode(article.name)
-    let titleBox = document.createElement("h4")
+    let titleBox = document.createElement("h3")
     titleBox.setAttribute("class", "article-title")
     titleBox.append(title)
-    imgFigure.append(titleBox)
-    addArrow(imgFigure) 
+    imgFigure.append(titleBox) 
 }
 
 var createDescription = function(article, articleBody){
@@ -312,13 +188,6 @@ var createDescription = function(article, articleBody){
     descriptionContainer.setAttribute("class", "article-content")
     descriptionContainer.append(description)
     articleBody.append(descriptionContainer)
-}
-
-var addArrow = function(imgFigure){
-  var arrow = document.createElement("img")
-  arrow.setAttribute("class", "arrow")
-  arrow.setAttribute("src", "arrow.png")
-  imgFigure.append(arrow)
 }
 
 var createArticle = function(article){
@@ -341,7 +210,6 @@ var createArticle = function(article){
     let source = document.createTextNode(article.provider[0].name)
     footer.append(source)
     articleBody.append(footer)
-    articleBody.style.display = 'none'
 
     articleBox.append(articleBody)
     polarize(article, articleBox)
@@ -349,11 +217,9 @@ var createArticle = function(article){
 }
 
 
-  var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/?Category=Politics");
-  var params = {q:"Donald Trump", count:100, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'};
-
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
+  var url = new URL("https://api.cognitive.microsoft.com/bing/v5.0/news/search?"),
+      params = {q:"muslim ban", count:100, offset: 0, mkt: 'en-us', safeSearch: 'Moderate'}
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   const myInit = {method: 'GET',
                   headers: {'Ocp-Apim-Subscription-Key': '44cc8ae001954e548d4708d0776ad5c1'}
                  }
@@ -362,57 +228,6 @@ var createArticle = function(article){
     myBlob.value.forEach((article)=>{
       createArticle(article)
     })
-
-
-    var everything = document.getElementsByClassName("everything")[0];
-    var searchButton = document.getElementsByClassName("search")[0];
-    var line = document.getElementsByClassName("line")[0];
-    var searchBar = document.getElementsByClassName("searchBar")[0];
-
-    everything.addEventListener("click", handleEverythingClick);
-    searchButton.addEventListener("click", handleSearchButtonClick);
-    searchBar.addEventListener("submit", searchForTerm)
-
-function searchForTerm(e){
-  e.preventDefault();
-  var searchTerm = document.getElementById("searchValue").value
-  var params = {
-            // Request parameters
-            "q": searchTerm,
-            "count": "100",
-            "offset": "0",
-            "mkt": "en-us",
-            "safeSearch": "Moderate",
-        };
-      
-        $.ajax({
-            url: "https://api.cognitive.microsoft.com/bing/v5.0/news/search?" + $.param(params),
-            beforeSend: function(xhrObj){
-                // Request headers
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'44cc8ae001954e548d4708d0776ad5c1');
-            },
-            type: "GET",
-            success: function(response){
-              var articlesObj = eval('('+response+')');
-                $('.article').remove()
-              articlesObj.value.forEach((article)=>{
-                createArticle(article)
-              })
-            }})
-
-}
-
-function handleEverythingClick(e) {
-  if (e.target.classList.value !== "search") {
-    setTimeout(function() {
-      line.style.display = 'block';
-    }, 380);
-  }
-}
-
-function handleSearchButtonClick() {
-  line.style.display = 'none';
-}
 
 
 
