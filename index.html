@@ -8,11 +8,12 @@
 </head>
 <style type="text/css">
 
-  body {
+  body{
    margin-top: 0px;
    margin-right: 0px;
    margin-bottom: 0px;
-   margin-left: 0px
+   margin-left: 0px;
+   background-color: black;
   }
 
 
@@ -80,13 +81,19 @@
     justify-content: space-between;
   }
 
-  @media(max-width: 576px){
-    figure{
+  @media(max-width: 480px){
+/*    figure{
       flex-direction: column;
       width: 100px;
     }
     .article{
       flex-direction: row;
+    }*/
+    .red-column{
+      height: 180em;
+    }
+    .blue-column{
+      height: 180em;
     }
   }
 
@@ -203,7 +210,7 @@
     padding: 0px;
     background-color: black;
     overflow-y: scroll;
-    height: 500px;
+    height: 60em;
     width: 50%;
   }
 
@@ -219,7 +226,7 @@
     padding: 0px;
     background-color: black;
     overflow-y: scroll;
-    height: 500px;
+    height: 60em;
     width: 50%;
 
   }
@@ -561,17 +568,17 @@ var articles = $('.article')
 })
 
   
-  $(window).scroll(function () {
-      //if you hard code, then use console
-      //.log to determine when you want the 
-      //nav bar to stick.  
-    if ($(window).scrollTop() > 100) {
-      $('nav').addClass('navbar-fixed');
-    }
-    if ($(window).scrollTop() < 100) {
-      $('nav').removeClass('navbar-fixed');
-    }
-  });
+  // $(window).scroll(function () {
+  //     //if you hard code, then use console
+  //     //.log to determine when you want the 
+  //     //nav bar to stick.  
+  //   if ($(window).scrollTop() > 100) {
+  //     $('nav').addClass('navbar-fixed');
+  //   }
+  //   if ($(window).scrollTop() < 100) {
+  //     $('nav').removeClass('navbar-fixed');
+  //   }
+  // });
 
   
 </script>
