@@ -29,6 +29,9 @@
     background: #bf80ff;
     justify-content: space-around;
     padding-bottom: 10px;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #230b28;
   }
 
   .navbar-fixed{
@@ -95,7 +98,12 @@
     padding: 0px;
     text-decoration: none;
     height: auto;
-    border-bottom: solid 1px rgba(0,0,0,0.8);
+    border: 3px #2d2d2d solid;
+  }
+
+  .article:hover{
+    border-color: white;
+    cursor: pointer;
   }
 
   .newsBox{
@@ -132,6 +140,7 @@
   .logo{
     margin-right: auto;
   }
+
 
   .blue-column .article figure .thumbnail{
     margin-right: auto;
@@ -192,7 +201,10 @@
     flex: 2;
     flex-direction: column;
     padding: 0px;
-    background-color: #fc3737;
+    background-color: black;
+    overflow-y: scroll;
+    height: 500px;
+    width: 50%;
   }
 
 
@@ -205,17 +217,26 @@
     flex: 2;
     flex-direction: column;
     padding: 0px;
-    background-color: #1aa3ff;
+    background-color: black;
+    overflow-y: scroll;
+    height: 500px;
+    width: 50%;
+
   }
 
   .article-content:hover{
     color: #e2e1e0;
   }
 
-/*  .blue-column .article{
-    border-color: blue;
+  .blue-column .article{
     margin: 10px;
-  }*/
+    background-color: #1aa3ff;
+  }
+
+  .red-column .article{
+    margin: 10px;
+    background-color: #fc3737;
+  }
 
   .blue-column .article figure{
     color: black;
@@ -261,6 +282,10 @@
   transition: all .5s;
 }
 
+.searchBar{
+  margin: 5px;
+}
+
 .search::-webkit-input-placeholder {
   color: transparent;
 }
@@ -302,8 +327,8 @@
 <nav>
   <div>
     <form class='searchBar'>
-    <input type="text" id='searchValue' placeholder="Search for any current political topic" height="30" class="search">
-    <input type="submit" name="submit" class='searchSubmit'>
+    <input type="text" id='searchValue' placeholder="Search for any current political topic" height="30" class="search"/>
+    <input type="submit" name="submit" class='searchSubmit'/>
     </form>
   
     <div class="line">
@@ -434,7 +459,7 @@ var createArticle = function(article, index){
 $(document).ready(function() {
     var initParams = {
             // Request parameters
-            "q": "Donald Trump",
+            "q": "border wall",
             "count": "100",
             "offset": "0",
             "mkt": "en-us",
@@ -453,9 +478,9 @@ $(document).ready(function() {
               articlesObj.value.forEach((article)=>{
                 createArticle(article)
               })
-              var arrows = $('.arrow')
-              for(var i = 0; i < arrows.length; i++){
-                arrows[i].addEventListener('click', showMoreInfo)
+              var articles = $('.article')
+              for(var i = 0; i < articles.length; i++){
+                articles[i].addEventListener('click', showMoreInfo)
               }
             }})
 
@@ -496,9 +521,9 @@ function searchForTerm(e){
               everything.addEventListener("click", handleEverythingClick);
               searchButton.addEventListener("click", handleSearchButtonClick);
               searchBar.addEventListener("submit", searchForTerm)
-              var arrows = $('.arrow')
-              for(var i = 0; i < arrows.length; i++){
-                arrows[i].addEventListener('click', showMoreInfo)
+              var articles = $('.article')
+              for(var i = 0; i < articles.length; i++){
+                articles[i].addEventListener('click', showMoreInfo)
               }
             }})
 
@@ -517,20 +542,21 @@ function handleSearchButtonClick() {
 }
 
 function showMoreInfo(e){
-  var description = e.target.parentElement.parentElement.childNodes[1]
+  var description = e.currentTarget.childNodes[1]
+  var arrow = e.currentTarget.childNodes[0].getElementsByClassName('arrow')[0]
 
   if(description.style.display === 'none'){
-      e.target.setAttribute("src", "up-arrow.png")
+      arrow.setAttribute("src", "up-arrow.png")
       description.style.display = 'block'
   }else{
-      e.target.setAttribute("src", "arrow.png")
+      arrow.setAttribute("src", "arrow.png")
       description.style.display = 'none'
-    }
   }
+}
 
-var arrows = $('.arrow')
-  for(var i = 0; i < arrows.length; i++){
-    arrows[i].addEventListener('click', showMoreInfo)
+var articles = $('.article')
+  for(var i = 0; i < articles.length; i++){
+    articles[i].addEventListener('click', showMoreInfo)
   }
 })
 
