@@ -95,11 +95,15 @@
     padding: 0px;
     text-decoration: none;
     height: auto;
-    border-bottom: solid 1px rgba(0,0,0,0.5);
+    border-bottom: solid 1px rgba(0,0,0,0.8);
   }
 
   .newsBox{
     display: flex;
+  }
+
+  .searchSubmit{
+    display: none;
   }
 
 
@@ -299,7 +303,7 @@
   <div>
     <form class='searchBar'>
     <input type="text" id='searchValue' placeholder="Search for any current political topic" height="30" class="search">
-    </input>
+    <input type="submit" name="submit" class='searchSubmit'>
     </form>
   
     <div class="line">
