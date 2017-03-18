@@ -118,7 +118,21 @@
 
   }
 
-  }
+/*  @media only screen and (max-device-width: 768px){
+    figure{
+      flex-direction: column;
+      width: 100px;
+    }
+    .article{
+      flex-direction: row;
+    }
+    .red-column{
+      height: 90em;
+    }
+    .blue-column{
+      height: 90em;
+    }
+  }*/
 
   .article{
     margin: 20px;
@@ -358,13 +372,6 @@
     transition: all 0.5s ease-in;
 
 }
-
-.article:click .article-body{
-    opacity: 1;
-    max-height: 40vh;
-    transition: all 0.5s ease-in;
-
-}
 </style>
 <body class='everything'>
 <nav>
@@ -590,7 +597,10 @@ function showMoreInfo(e){
 
   if(description.style.display === 'none'){
       arrow.setAttribute("src", "up-arrow.png")
+      description.style.transition = 'all 0.5s ease-in'
+      description.style.maxHeight = '40vh'
       description.style.display = 'block'
+      description.style.opacity = '1'
   }else{
       arrow.setAttribute("src", "arrow.png")
       description.style.display = 'none'
