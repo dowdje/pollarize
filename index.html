@@ -27,7 +27,7 @@
     display: flex;
     height: 100px;
     width: 100%;  
-    background: #bf80ff;
+    background: black;
     justify-content: space-around;
     padding-bottom: 10px;
     border-bottom-width: 5px;
@@ -72,6 +72,7 @@
     text-align: middle;
   }
 
+
   .article-body{
     display: none;
     font-style: Utopia;
@@ -92,7 +93,7 @@
     padding: 0px;
     background-color: black;
     overflow-y: auto;
-    height: 31em;
+    height: 100vh;
     width: 50%;
   }
 
@@ -108,42 +109,49 @@
     padding: 0px;
     background-color: black;
     overflow-y: auto;
-    height: 31em;
+    height: 100vh;
     width: 50%;
 
   }
 
-  @media only screen and (max-device-width: 768px){
-/*    figure{
+/*  @media only screen and (max-device-width: 768px){
+    figure{
       flex-direction: column;
       width: 100px;
     }
     .article{
       flex-direction: row;
-    }*/
+    }
     .red-column{
       height: 90em;
     }
     .blue-column{
       height: 90em;
     }
-  }
+  }*/
 
   .article{
-    margin-top: 0px;
+    margin: 20px;
     display: flex;
+    flex-shrink: 1;
     flex-direction: column;
     flex-basis: auto;
     padding: 0px;
     text-decoration: none;
     height: auto;
     border: 3px #2d2d2d solid;
+    transition: 1s ease-out;
   }
 
   .article:hover{
     border-color: white;
     cursor: pointer;
+    z-index: 4;
+    transform: translate3d(5vh, 0vh, 10vh);
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.5, 0, .1, 1);
   }
+
 
   .newsBox{
     display: flex;
@@ -218,6 +226,8 @@
     flex-direction: column;
     color: #1a1a1a;
     padding-bottom: 5px;
+    padding-right: 3vh;
+    padding-left: 3vh;
   }
  
   .article-content {
@@ -243,12 +253,10 @@
   }
 
   .blue-column .article{
-    margin: 10px;
     background-color: #1aa3ff;
   }
 
   .red-column .article{
-    margin: 10px;
     background-color: #fc3737;
   }
 
@@ -257,12 +265,21 @@
     justify-content: flex-end;
   }
 
-/*  .blue-column .article:hover p{
-    color: blue;
+  .blue-column .article:hover {
+    z-index: 4;
+    transform: translate3d(5vh, 0vh, 10vh);
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0.5, 0, .1, 1);
   }
-  .red-column .article:hover p{
-    color: red;
-  }*/
+
+  .red-column .article:hover {
+    z-index: 4;
+    transform: translate3d(-5vh, 0vh, 10vh);
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0.5, 0, .1, 1);
+  }
+
+
 
   .red-column .article figure{
     color: black;
@@ -335,6 +352,20 @@
   float: left;
   margin-left: 68px;
   margin-top: -12px;
+}
+
+.article-body{
+    transition: all .5s ease-out;
+    opacity: 0; 
+    max-height: 0;
+    overflow: hidden;
+}
+
+.article:hover .article-body{
+    opacity: 1;
+    max-height: 40vh;
+    transition: all 0.5s ease-in;
+
 }
 </style>
 <body class='everything'>
@@ -458,7 +489,6 @@ var createArticle = function(article, index){
     let source = document.createTextNode(article.provider[0].name)
     footer.append(source)
     articleBody.append(footer)
-    articleBody.style.display = 'none'
 
     articleBox.append(articleBody)
     polarize(article, articleBox)
