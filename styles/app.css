@@ -140,6 +140,12 @@
     transition: 1s ease-out;
   }
 
+  h2{
+    z-index: 11;
+    color: white;
+    align-self: bottom;
+  }
+
   .article:hover{
     border-color: white;
     cursor: pointer;
