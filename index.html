@@ -24,6 +24,7 @@
   }
 
   nav{
+    pointer-events: none;
     display: flex;
     height: 100px;
     width: 100%;  
@@ -34,6 +35,7 @@
     border-bottom-style: solid;
     border-bottom-color: #230b28;
     position: fixed;
+    z-index: 10;
   }
 
   .back-nav{
@@ -293,7 +295,8 @@
   }
 
 .search {
-  cursor: default;
+  pointer-events: all;
+  cursor: pointer;
   background-color: #9F87D1;
   height: 30px;
   font-size: 21px;
