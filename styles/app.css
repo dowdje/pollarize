@@ -32,7 +32,8 @@
   }
 
   .back-nav{
-    width:100vw;
+    padding-right: 100vw;
+    width:100%;
   }
 
   .navbar-fixed{
@@ -92,12 +93,6 @@
     height: 100vh;
     width: 50%;
   }
-
-
-/*  .red-column .article{
-    border-color: red;
-    margin: 10px
-  }*/
    
   .blue-column {
     flex: 2;
@@ -110,22 +105,6 @@
     width: 50%;
 
   }
-
-/*  @media only screen and (max-device-width: 768px){
-    figure{
-      flex-direction: column;
-      width: 100px;
-    }
-    .article{
-      flex-direction: row;
-    }
-    .red-column{
-      height: 90em;
-    }
-    .blue-column{
-      height: 90em;
-    }
-  }*/
 
   .article{
     margin: 20px;
