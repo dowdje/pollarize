@@ -149,7 +149,7 @@ $(document).ready(function() {
             url: "https://api.cognitive.microsoft.com/bing/v5.0/news/search?" + $.param(initParams),
             beforeSend: function(xhrObj){
                 // Request headers
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'398253df7ebe4c3182af25a3c13833b0');
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'933a9d2cde2847488f451c1cf3af35b7');
             },
             type: "GET",
             success: function(response){
@@ -190,7 +190,7 @@ function searchForTerm(e){
             url: "https://api.cognitive.microsoft.com/bing/v5.0/news/search?" + $.param(params),
             beforeSend: function(xhrObj){
                 // Request headers
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'398253df7ebe4c3182af25a3c13833b0');
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",'933a9d2cde2847488f451c1cf3af35b7');
             },
             type: "GET",
             success: function(response){
